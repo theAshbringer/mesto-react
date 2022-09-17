@@ -1,10 +1,11 @@
 import React from 'react'
 
-const Main = () => {
+const Main = ({ onEditProfile, onAddPlace, onEditAvatar }) => {
+
   return (
     <main className="content">
       <section className="profile">
-        <div className="profile__avatar-container">
+        <div className="profile__avatar-container" onClick={onEditAvatar}>
           <img
             src="<%=require('./images/avatar.png')%>"
             alt="Аватар"
@@ -15,6 +16,7 @@ const Main = () => {
           <div className="profile__name-string">
             <h1 className="profile__name">Имя</h1>
             <button
+              onClick={onEditProfile}
               className="edit-btn profile__edit-btn"
               type="button"
               aria-label="Редактировать профиль"
@@ -24,6 +26,7 @@ const Main = () => {
           <p className="profile__description">Описание</p>
         </div>
         <button
+          onClick={onAddPlace}
           className="add-btn profile__add-btn"
           type="button"
           aria-label="Добавить карточку"
