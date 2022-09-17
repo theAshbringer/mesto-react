@@ -1,6 +1,6 @@
 function App() {
   return (
-    <>
+    <div className="page">
       <header className="header">
         <a href="#" className="header__logo" />
       </header>
@@ -172,7 +172,7 @@ function App() {
         </form>
       </div>
       <template id="card-template" />
-    </>
+    </div>
   );
 }
 
