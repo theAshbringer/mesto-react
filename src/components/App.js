@@ -22,6 +22,12 @@ function App() {
     setIsAddPlacePopupOpen(true);
   };
 
+  const closeAllPopups = () => {
+    setIsEditProfileOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+  };
+
   return (
     <div className="page">
       <Header />
@@ -35,6 +41,7 @@ function App() {
         name="edit"
         title="Редактировать профиль"
         isOpen={isEditProfileOpen}
+        onClose={closeAllPopups}
       >
         <input
           type="text"
@@ -64,6 +71,7 @@ function App() {
         name="add"
         title="Новое место"
         isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
       >
         <input
           type="text"
@@ -86,7 +94,11 @@ function App() {
         />
         <span className="popup__input-error card-description-error" />
       </PopupWithForm>
-      <PopupWithForm name="avatar" title="Обновить аватар" isOpen={isEditAvatarPopupOpen}>
+      <PopupWithForm
+        name="avatar"
+        title="Обновить аватар"
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}>
         <input
           type="url"
           name="avatar-link"
@@ -96,7 +108,7 @@ function App() {
           required=""
         />
         <span className="popup__input-error popup__input-error_type_avatar avatar-link-error" /></PopupWithForm>
-      <PopupWithForm name="del" title="Вы уверены?"></PopupWithForm>
+      <PopupWithForm name="del" title="Вы уверены?" onClose={closeAllPopups}></PopupWithForm>
       <ImagePopup />
     </div>
   );
