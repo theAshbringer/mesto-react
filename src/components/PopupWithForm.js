@@ -4,8 +4,9 @@ function PopupWithForm({ children, name, title, isOpen, onClose }) {
   const popupClass = `popup popup_type_${name} ${isOpen && 'popup_opened'}`
 
   return (
-    <div className={popupClass}>
+    <div className={popupClass} onClick={onClose}>
       <form
+        onClick={(e) => { e.stopPropagation() }}
         name={name}
         className="popup__container"
         noValidate=""
