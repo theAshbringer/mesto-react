@@ -9,6 +9,8 @@ function App() {
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState({})
 
   const handleAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -29,18 +31,24 @@ function App() {
     }
   };
 
+  const handleCardClick = (card) => {
+    setSelectedCard(card)
+    setIsImagePopupOpen(true)
+  };
+
+  const closeAllPopups = () => {
+    setIsEditProfileOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsImagePopupOpen(false);
+  };
+
   useEffect(() => {
     document.addEventListener('keydown', handleCloseEscKey)
     return () => {
       document.removeEventListener('keydown', handleCloseEscKey)
     }
   })
-
-  const closeAllPopups = () => {
-    setIsEditProfileOpen(false);
-    setIsAddPlacePopupOpen(false);
-    setIsEditAvatarPopupOpen(false);
-  };
 
   return (
     <div className="page">
@@ -49,6 +57,7 @@ function App() {
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleAvatarClick}
+        onCardClick={handleCardClick}
       />
       <Footer />
       <PopupWithForm
@@ -123,7 +132,11 @@ function App() {
         />
         <span className="popup__input-error popup__input-error_type_avatar avatar-link-error" /></PopupWithForm>
       <PopupWithForm name="del" title="Вы уверены?" onClose={closeAllPopups}></PopupWithForm>
-      <ImagePopup />
+      <ImagePopup
+        isOpen={isImagePopupOpen}
+        card={selectedCard}
+        onClose={closeAllPopups}
+      />
     </div>
   );
 }

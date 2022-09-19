@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Card({ likes, name, link, owner }) {
+function Card({ likes, name, link, owner, onCardClick }) {
   return (
-    <article className="card__container">
+    <article className="card__container" onClick={() => onCardClick({ name, link })}>
       <h2 className="card__title">{name}</h2>
       <button className="card__onclick" type="button">
         <img

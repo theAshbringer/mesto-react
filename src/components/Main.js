@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import api from '../utils/api';
 import Card from './Card'
 
-const Main = ({ onEditProfile, onAddPlace, onEditAvatar }) => {
+const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
   const [userName, setUserName] = useState('');
   const [userDescription, setUserDescription] = useState('');
   const [userAvatar, setUserAvatar] = useState('');
@@ -58,6 +58,7 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar }) => {
                 name={name}
                 link={link}
                 owner={owner}
+                onCardClick={onCardClick}
               />
             </li>
           })}
