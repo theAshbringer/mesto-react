@@ -17,7 +17,7 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar }) => {
     api.getInitialCards().then((cards) => {
       setCards(cards);
     })
-  });
+  }, []);
 
   return (
     <main className="content">
