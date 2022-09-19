@@ -1,16 +1,19 @@
 import React from 'react'
 
-function ImagePopup() {
+function ImagePopup({ isOpen, card, onClose }) {
+  const className = `popup popup_type_img ${isOpen && 'popup_opened'}`;
+
   return (
-    <div className="popup popup_type_img">
+    <div className={className}>
       <figure className="img-popup">
         <img
-          src="<%=require('./images/dombay.png')%>"
-          alt="Домбай"
+          src={card.link}
+          alt={card.name}
           className="img-popup__image"
         />
-        <figcaption className="img-popup__title" />
+        <figcaption className="img-popup__title">{card.name}</figcaption>
         <button
+          onClick={onClose}
           className="close-btn popup__close"
           type="button"
           aria-label="Закрыть"

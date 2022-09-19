@@ -1,20 +1,36 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import api from '../utils/api';
+import Card from './Card'
 
-const Main = ({ onEditProfile, onAddPlace, onEditAvatar }) => {
+const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
+  const [userName, setUserName] = useState('');
+  const [userDescription, setUserDescription] = useState('');
+  const [userAvatar, setUserAvatar] = useState('');
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    api.loadUserInfo().then(({ name, about, avatar, _id }) => {
+      setUserName(name);
+      setUserDescription(about);
+      setUserAvatar(avatar);
+    });
+    api.getInitialCards().then((cards) => {
+      setCards(cards);
+    })
+  }, []);
 
   return (
     <main className="content">
       <section className="profile">
-        <div className="profile__avatar-container" onClick={onEditAvatar}>
-          <img
-            src="<%=require('./images/avatar.png')%>"
-            alt="Аватар"
-            className="profile__avatar"
-          />
+        <div
+          className="profile__avatar-container"
+          onClick={onEditAvatar}
+          style={{ backgroundImage: `url(${userAvatar})` }}
+        >
         </div>
         <div className="profile__info">
           <div className="profile__name-string">
-            <h1 className="profile__name">Имя</h1>
+            <h1 className="profile__name">{userName}</h1>
             <button
               onClick={onEditProfile}
               className="edit-btn profile__edit-btn"
@@ -23,7 +39,7 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar }) => {
               title="Редактировать профиль"
             />
           </div>
-          <p className="profile__description">Описание</p>
+          <p className="profile__description">{userDescription}</p>
         </div>
         <button
           onClick={onAddPlace}
@@ -34,9 +50,21 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar }) => {
         />
       </section>
       <section>
-        <ul className="cards" />
+        <ul className="cards">
+          {cards.map(({ likes, name, link, owner, _id }) => {
+            return <li className="card" key={_id}>
+              <Card
+                likes={likes}
+                name={name}
+                link={link}
+                owner={owner}
+                onCardClick={onCardClick}
+              />
+            </li>
+          })}
+        </ul>
       </section>
-    </main>
+    </main >
   )
 }
 
