@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 import ImagePopup from "./ImagePopup";
@@ -21,6 +21,20 @@ function App() {
   const handleAddPlaceClick = () => {
     setIsAddPlacePopupOpen(true);
   };
+
+  const handleCloseEscKey = (e) => {
+    const escapeKey = 'Escape';
+    if (e.key === escapeKey) {
+      closeAllPopups();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleCloseEscKey)
+    return () => {
+      document.removeEventListener('keydown', handleCloseEscKey)
+    }
+  })
 
   const closeAllPopups = () => {
     setIsEditProfileOpen(false);
