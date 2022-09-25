@@ -60,15 +60,15 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
       <section>
         <ul className="cards">
           {cards.map(({ likes, name, link, owner, _id }) => {
-            return <li className="card" key={_id}>
+            return (
               <Card
                 likes={likes}
                 name={name}
                 link={link}
                 owner={owner}
                 onCardClick={onCardClick}
-              />
-            </li>
+                key={_id}
+              />)
           })}
         </ul>
       </section>
