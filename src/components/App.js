@@ -44,11 +44,13 @@ function App() {
       }
     };
 
+    console.log('useeffect');
+
     document.addEventListener('keydown', handleCloseEscKey)
     return () => {
       document.removeEventListener('keydown', handleCloseEscKey)
     }
-  })
+  }, [])
 
   return (
     <div className="page">
