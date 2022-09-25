@@ -24,13 +24,6 @@ function App() {
     setIsAddPlacePopupOpen(true);
   };
 
-  const handleCloseEscKey = (e) => {
-    const escapeKey = 'Escape';
-    if (e.key === escapeKey) {
-      closeAllPopups();
-    }
-  };
-
   const handleCardClick = (card) => {
     setSelectedCard(card)
     setIsImagePopupOpen(true)
@@ -44,6 +37,13 @@ function App() {
   };
 
   useEffect(() => {
+    const handleCloseEscKey = (e) => {
+      const escapeKey = 'Escape';
+      if (e.key === escapeKey) {
+        closeAllPopups();
+      }
+    };
+
     document.addEventListener('keydown', handleCloseEscKey)
     return () => {
       document.removeEventListener('keydown', handleCloseEscKey)
