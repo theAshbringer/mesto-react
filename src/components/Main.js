@@ -9,14 +9,22 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    api.loadUserInfo().then(({ name, about, avatar, _id }) => {
-      setUserName(name);
-      setUserDescription(about);
-      setUserAvatar(avatar);
-    });
-    api.getInitialCards().then((cards) => {
-      setCards(cards);
-    })
+    api.loadUserInfo()
+      .then(({ name, about, avatar, _id }) => {
+        setUserName(name);
+        setUserDescription(about);
+        setUserAvatar(avatar);
+      })
+      .catch((err) => {
+        console.log('Не удалось загрузить данные профиля: ', err);
+      });
+    api.getInitialCards()
+      .then((cards) => {
+        setCards(cards);
+      })
+      .catch((err) => {
+        console.log('Не удалось инициализировать карточки: ', err);
+      });
   }, []);
 
   return (
@@ -52,15 +60,15 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
       <section>
         <ul className="cards">
           {cards.map(({ likes, name, link, owner, _id }) => {
-            return <li className="card" key={_id}>
+            return (
               <Card
                 likes={likes}
                 name={name}
                 link={link}
                 owner={owner}
                 onCardClick={onCardClick}
-              />
-            </li>
+                key={_id}
+              />)
           })}
         </ul>
       </section>
