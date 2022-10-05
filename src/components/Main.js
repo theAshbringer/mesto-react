@@ -1,23 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import api from '../utils/api';
 import Card from './Card'
 
 const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
-  const [userName, setUserName] = useState('');
-  const [userDescription, setUserDescription] = useState('');
-  const [userAvatar, setUserAvatar] = useState('');
   const [cards, setCards] = useState([]);
+  const { name, about: description, avatar } = useContext(CurrentUserContext);
 
   useEffect(() => {
-    api.loadUserInfo()
-      .then(({ name, about, avatar, _id }) => {
-        setUserName(name);
-        setUserDescription(about);
-        setUserAvatar(avatar);
-      })
-      .catch((err) => {
-        console.log('Не удалось загрузить данные профиля: ', err);
-      });
     api.getInitialCards()
       .then((cards) => {
         setCards(cards);
@@ -33,12 +23,12 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
         <div
           className="profile__avatar-container"
           onClick={onEditAvatar}
-          style={{ backgroundImage: `url(${userAvatar})` }}
+          style={{ backgroundImage: `url(${avatar})` }}
         >
         </div>
         <div className="profile__info">
           <div className="profile__name-string">
-            <h1 className="profile__name">{userName}</h1>
+            <h1 className="profile__name">{name}</h1>
             <button
               onClick={onEditProfile}
               className="edit-btn profile__edit-btn"
@@ -47,7 +37,7 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
               title="Редактировать профиль"
             />
           </div>
-          <p className="profile__description">{userDescription}</p>
+          <p className="profile__description">{description}</p>
         </div>
         <button
           onClick={onAddPlace}
