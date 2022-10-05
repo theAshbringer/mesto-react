@@ -19,6 +19,15 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
       .catch(err => console.log('Не удалось обработать лайк'));
   }
 
+  const handleCardDelete = (card) => {
+
+    api.deleteCard(card._id,)
+      .then(() => {
+        setCards((state) => state.filter((c) => c._id !== card._id));
+      })
+      .catch(err => console.log('Не удалось удалить карточку'));
+  }
+
   useEffect(() => {
     api.getInitialCards()
       .then((cards) => {
@@ -67,6 +76,7 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
                 card={card}
                 onCardClick={onCardClick}
                 onCardLike={handleCardClick}
+                onCardDelete={handleCardDelete}
                 key={card._id}
               />)
           })}
