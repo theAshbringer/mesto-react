@@ -1,6 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { CurrentUserContext } from '../contexts/CurrentUserContext'
 
 function Card({ likes, name, link, owner, onCardClick }) {
+  const currentUser = useContext(CurrentUserContext);
+
+  const isOwner = owner === currentUser._id;
+
+  const isLiked = likes.some(like => like._id === currentUser._id);
+
+  const cardLikeClassName = `like-btn card__like-btn ${isLiked ? 'like-btn_active' : ''}`;
+
   return (
     <li className="card" >
       <article className="card__container" onClick={() => onCardClick({ name, link })}>
@@ -14,19 +23,20 @@ function Card({ likes, name, link, owner, onCardClick }) {
         </button>
         <div className="card__like">
           <button
-            className="like-btn card__like-btn"
+            className={cardLikeClassName}
             type="button"
             aria-label="Нравится"
             title="Нравится"
           />
           <p className="card__likes-number">{likes.length}</p>
         </div>
-        <button
-          className="delete-btn card__delete"
-          type="button"
-          aria-label="Удалить карточку"
-          title="Удалить карточку"
-        />
+        {isOwner &&
+          <button
+            className="delete-btn card__delete"
+            type="button"
+            aria-label="Удалить карточку"
+            title="Удалить карточку"
+          />}
       </article>
     </li>
   )
