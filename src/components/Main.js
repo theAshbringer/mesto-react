@@ -7,6 +7,18 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
   const [cards, setCards] = useState([]);
   const { name, about: description, avatar } = useContext(CurrentUserContext);
 
+  const currentUser = useContext(CurrentUserContext);
+
+  const handleCardClick = (card) => {
+    const isLiked = card.likes.some(like => like._id === currentUser._id);
+
+    api.changeLikeCardStatus(card._id, isLiked)
+      .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+      })
+      .catch(err => console.log('Не удалось обработать лайк'));
+  }
+
   useEffect(() => {
     api.getInitialCards()
       .then((cards) => {
@@ -49,15 +61,13 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
       </section>
       <section>
         <ul className="cards">
-          {cards.map(({ likes, name, link, owner, _id }) => {
+          {cards.map((card) => {
             return (
               <Card
-                likes={likes}
-                name={name}
-                link={link}
-                owner={owner}
+                card={card}
                 onCardClick={onCardClick}
-                key={_id}
+                onCardLike={handleCardClick}
+                key={card._id}
               />)
           })}
         </ul>
