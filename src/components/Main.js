@@ -5,12 +5,10 @@ import Card from './Card'
 
 const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
   const [cards, setCards] = useState([]);
-  const { name, about: description, avatar } = useContext(CurrentUserContext);
-
-  const currentUser = useContext(CurrentUserContext);
+  const { name, about: description, avatar, _id } = useContext(CurrentUserContext);
 
   const handleCardClick = (card) => {
-    const isLiked = card.likes.some(like => like._id === currentUser._id);
+    const isLiked = card.likes.some(like => like._id === _id);
 
     api.changeLikeCardStatus(card._id, isLiked)
       .then((newCard) => {
