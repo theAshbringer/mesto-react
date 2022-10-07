@@ -8,6 +8,7 @@ import api from '../utils/api';
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
@@ -91,6 +92,17 @@ function App() {
       })
   }
 
+  const handleAddPlace = (card) => {
+    api.postCard(card)
+      .then((newCard) => {
+        setCards([newCard, ...cards])
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log('Не удалось запостить карточку: ', err);
+      })
+  }
+
   useEffect(() => {
     api.loadUserInfo()
       .then((user) => {
@@ -134,33 +146,11 @@ function App() {
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
         />
-        <PopupWithForm
-          name="add"
-          title="Новое место"
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-        >
-          <input
-            type="text"
-            name="card-name"
-            id="card-name"
-            className="popup__field popup__field_type_card-name"
-            placeholder="Название"
-            required=""
-            minLength={2}
-            maxLength={30}
-          />
-          <span className="popup__input-error card-name-error" />
-          <input
-            type="url"
-            name="card-description"
-            id="card-description"
-            className="popup__field popup__field_type_card-link"
-            placeholder="Ссылка на картинку"
-            required=""
-          />
-          <span className="popup__input-error card-description-error" />
-        </PopupWithForm>
+          onAddPlace={handleAddPlace}
+        />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
