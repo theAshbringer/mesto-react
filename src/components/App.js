@@ -104,6 +104,7 @@ function App() {
   }
 
   useEffect(() => {
+    // загружаем профиль
     api.loadUserInfo()
       .then((user) => {
         setCurrentUser(user)
@@ -111,9 +112,8 @@ function App() {
       .catch((err) => {
         console.log('Не удалось загрузить данные профиля: ', err);
       })
-  }, [])
 
-  useEffect(() => {
+    // ставим обработчик закрытия по Esc
     const handleCloseEscKey = (e) => {
       const escapeKey = 'Escape';
       if (e.key === escapeKey) {
@@ -122,9 +122,11 @@ function App() {
     };
 
     document.addEventListener('keydown', handleCloseEscKey)
+
     return () => {
       document.removeEventListener('keydown', handleCloseEscKey)
     }
+
   }, [])
 
   return (
