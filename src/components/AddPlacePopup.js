@@ -2,17 +2,25 @@ import React, { useState } from 'react'
 import PopupWithForm from './PopupWithForm'
 
 const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
-  const [name, setName] = useState('');
-  const [link, setLink] = useState('')
+  const initialValues = {
+    name: '',
+    link: '',
+  }
+
+  const [formValues, setFormValues] = useState(initialValues);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    })
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddPlace({
-      name,
-      link
-    });
-    setName('');
-    setLink('');
+    onAddPlace(formValues);
+    setFormValues(initialValues);
   }
 
   return (
@@ -24,10 +32,10 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
       onSubmit={handleSubmit}
     >
       <input
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={formValues.name}
+        onChange={handleChange}
         type="text"
-        name="card-name"
+        name="name"
         id="card-name"
         className="popup__field popup__field_type_card-name"
         placeholder="Название"
@@ -37,10 +45,10 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
       />
       <span className="popup__input-error card-name-error" />
       <input
-        value={link}
-        onChange={(e) => setLink(e.target.value)}
+        value={formValues.link}
+        onChange={handleChange}
         type="url"
-        name="card-description"
+        name="link"
         id="card-description"
         className="popup__field popup__field_type_card-link"
         placeholder="Ссылка на картинку"
