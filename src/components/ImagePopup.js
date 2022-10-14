@@ -1,11 +1,15 @@
 import React from 'react'
+import CloseButton from './CloseButton';
+import Popup from './Popup';
 
 function ImagePopup({ isOpen, card, onClose }) {
   const className = `popup popup_type_img ${isOpen && 'popup_opened'}`;
 
   return (
-    <div className={className}>
-      <figure className="img-popup">
+    <Popup className={className} onClose={onClose}>
+      <figure
+        onClick={(e) => { e.stopPropagation() }}
+        className="img-popup">
         <img
           src={card.link}
           alt={card.name}
@@ -19,8 +23,9 @@ function ImagePopup({ isOpen, card, onClose }) {
           aria-label="Закрыть"
           title="Закрыть"
         />
+        <CloseButton onClose={onClose} />
       </figure>
-    </div>
+    </Popup >
   )
 }
 
