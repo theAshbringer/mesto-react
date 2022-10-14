@@ -1,10 +1,12 @@
 import React from 'react'
+import CloseButton from './CloseButton'
+import Popup from './Popup'
 
 function PopupWithForm({ children, name, title, isOpen, onClose, onSubmit }) {
   const popupClass = `popup popup_type_${name} ${isOpen && 'popup_opened'}`
 
   return (
-    <div className={popupClass} onClick={onClose}>
+    <Popup className={popupClass} onClose={onClose}>
       <form
         onClick={(e) => { e.stopPropagation() }}
         onSubmit={onSubmit}
@@ -20,15 +22,9 @@ function PopupWithForm({ children, name, title, isOpen, onClose, onSubmit }) {
         >
           {name !== "del" ? "Сохранить" : "Да"}
         </button>
-        <button
-          onClick={onClose}
-          className="close-btn popup__close"
-          type="button"
-          aria-label="Закрыть"
-          title="Закрыть"
-        />
+        <CloseButton onClose={onClose} />
       </form>
-    </div>
+    </Popup>
   )
 }
 
